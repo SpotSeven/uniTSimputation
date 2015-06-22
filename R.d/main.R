@@ -5,18 +5,14 @@ library("zoo")
 library("ggplot2")
 library("forecast")
 
-#install.packages("imputeTS", repos = NULL, type="source")
-library("imputeTS")
 
-#source("helper-functions.R")
+source("helper-functions.R")
 
-# ri sometimes gives error...
-#sel.imputation.mice <- c("mean","rf","norm.predict","pmm","norm","norm.boot","norm.nob","quadratic")#,"ri")
-
-# byPred was taking in the order of minutes to compute...
-sel.imputation.extra <- c("ar.irmi")#, "byPred") 
+#Settings
+sel.imputation.extra <- c("ar.irmi")
 sel.imputation.zoo <- c("aggregate","StructTS","locf","approx")
 sel.imputation.forecast <- c("interp")
+
 
 sel.imputation <- c(sel.imputation.extra, sel.imputation.zoo, sel.imputation.forecast)
 
@@ -24,17 +20,7 @@ sel.rates <- c(0.1, 0.3, 0.5, 0.7)
 sel.seeds <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)
 
 sel.datasets <- c("beersales", "airpass", "SP","google")
-#sel.datasets <- c("airpass")#,"airmiles","ar1.2.s","ar1.s","ar2.s","arma11.s","beersales",
-#                   "bluebird","boardings","co2","color","CREF","cref.bond",
-#                   "days","deere1","deere2","deere3","electricity","euph",
-#                   "flow","google","hare","hours","ima22.s","JJ","larain","ma1.1.s",
-#                   "ma1.2.s","ma2.s","oil.price","oilfilters","prescrip","prey.eq",
-#                   "retail","robot","rwalk","SP","spots","spots1","star","tbone","tempdub",
-#                   "tuba","winnebago")
 
-## bluebirdlite, usd.hkd, milk, wages keine ts - is.ts() m?glich
-#explode.s, gold, units
-#big: ,"eeg"
 
 #load all selected datasets
 data(list = sel.datasets, envir = environment())
@@ -73,7 +59,6 @@ for (i.dataset in sel.datasets)
                     else if (i.algoImp %in% sel.imputation.extra) {
                          ts.imputed <- switch(i.algoImp,
                                               ar.irmi = {ar.irmi(ts.missing$data, lags=12)},
-                                              byPred = {mv.byForecast(ts.missing$data)},
                                               stop("Not a valid algorithm.")
                          )
                     }
@@ -117,7 +102,6 @@ for (i.dataset in sel.datasets)
           } 
      } 
 }
-#names(plots) <- sel.imputation
 
 timestamp <- as.character(Sys.time())
 timestamp <- strsplit(timestamp, " ")

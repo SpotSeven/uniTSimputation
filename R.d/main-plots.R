@@ -2,9 +2,9 @@
 
 fig.path <- function(file.name, single=T) {
      if (single)
-          return(paste0("/Fig.d/", file.name, ".pdf"))
+          return(paste0("../Figures.d/", file.name, ".pdf"))
      else
-          return(paste0("/Fig.d/", file.name, "-%02d.pdf"))
+          return(paste0("../Figures.d/", file.name, "-%02d.pdf"))
 }
 
 my.plot <- function(results, metric, onefile=T) {
@@ -34,9 +34,6 @@ my.plot <- function(results, metric, onefile=T) {
 
 library(ggplot2)
 
-#source("helper-functions.R")
-
-#load("../Results.d/Results_2015-04-10_08-48-47.RData")
 load("../Results.d/Results_2015-04-25_07-16-16.RData")
 
 # ===========================================================================================================

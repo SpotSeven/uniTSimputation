@@ -523,7 +523,6 @@ mice.impute <- function(data,time, algorithm, seed=7) {
 
 #' Zoo 
 #' 
-#' ZOO
 #' 
 #' @param data The time series with missing values coded as NA.
 #' @param algorithm The algorithm to be used
@@ -558,70 +557,5 @@ zoo.impute <- function(data, algorithm, seed=7) {
          stop("Not a valid algorithm.")
          )
     
-}
-
-
-
-# ===========================================================================================================
-
-#' Forecast/Backcast 
-#' 
-#' 
-#' 
-#' @param data The time series with missing values coded as NA.
-#' @param algorithm The algorithm to be used
-#' @param seed Random seed to be used for reproducibility.
-#' 
-#' @return A time series with the same attributes as \code{data} but with its missing valus imputed.
-#' 
-forecast.impute <- function(data, algorithm, seed=7) {
-  if (is.null(data))
-    stop("No data provided.")
-  
-  if (class(data) != "ts")
-    stop("Provided data is not a time series.")
-  
-  if (!any(is.na(data))) {
-    warning("No missing values encountered, no imputation performed.")
-    return(data)
-  }
-  
-  if (!require(forecast))
-    stop("forecast package required.")
-  
-  if (is.na(data[1])) {
-    data[1] <- mean(data, na.rm = T)
-  }
-  
-  imputed.forecast <- data
-  for (i in 1:length(data)) {
-    if (is.na(data[i]) ) {
-      if (i < 10 || i < (frequency(data)*2+1)) {
-        imputed.forecast[i] <- NA
-      }
-      else {
-        
-        subseries <- ts(1:(i-1), frequency = frequency(data))
-        fit <- ets(subseries)
-        forecasts <- forecast(fit,h=1)
-        imputed.forecast[i] <- forecasts$mean
-      }
-    }
-  }
-  imputed.backcast <- data
-  for (i in 1:length(data)) {
-    if (is.na(data[i]) ) {
-      if (i < 10 || i < (frequency(data)*2+1)) {
-        imputed.forecast[i] <- NA
-      }
-      else {
-        
-        fit3 <- ets(trainData)
-        forecastETS <- forecast(fit3,h=sel.predictionDays)
-        Prediction <- forecastETS$mean
-      }
-    }
-  }
-  
 }
 
