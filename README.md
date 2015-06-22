@@ -10,6 +10,6 @@ The folders have the following content:
 
 
 Short description of code files within R.d:
-- main.R, runs the experiments and creates results files
+- main.R runs the experiments and creates results files
 - main-plots.R creates the figures (with result files as input)
 - helper-functions.R is called by main.R and provides several required functions
